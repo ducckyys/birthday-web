@@ -60,6 +60,11 @@ jobs:
           QUEUE_CONNECTION=sync
           EOF
 
+      - name: Validate Laravel APP_KEY
+        run: |
+          APP_KEY_VALUE="$(grep '^APP_KEY=' .env | cut -d= -f2- | sed 's/^"//;s/"$//')"
+          php -r '$key = $argv[1]; if (! str_starts_with($key, "base64:") || strlen(base64_decode(substr($key, 7), true)) !== 32) { fwrite(STDERR, "APP_KEY secret harus format base64: dan panjang key Laravel valid. Jalankan php artisan key:generate --show lalu copy semuanya, termasuk base64:".PHP_EOL); exit(1); }' "$APP_KEY_VALUE"
+
       - name: Create InfinityFree root .htaccess
         run: |
           cat > .htaccess <<'EOF'
