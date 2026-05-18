@@ -1,0 +1,112 @@
+name: Deploy Laravel to InfinityFree
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  web-deploy:
+    name: Deploy Website
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get latest code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, xml, ctype, iconv, intl, pdo_mysql, bcmath, gd, zip, fileinfo
+          coverage: none
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Install Composer dependencies
+        run: composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader --no-scripts
+
+      - name: Install NPM dependencies and build Vite assets
+        run: |
+          npm ci
+          npm run build
+
+      - name: Create production .env
+        run: |
+          cat > .env <<'EOF'
+          APP_NAME="${{ secrets.APP_NAME }}"
+          APP_ENV=production
+          APP_KEY="${{ secrets.APP_KEY }}"
+          APP_DEBUG=false
+          APP_URL="${{ secrets.APP_URL }}"
+
+          LOG_CHANNEL=single
+          LOG_LEVEL=error
+
+          DB_CONNECTION=mysql
+          DB_HOST="${{ secrets.DB_HOST }}"
+          DB_PORT="${{ secrets.DB_PORT }}"
+          DB_DATABASE="${{ secrets.DB_DATABASE }}"
+          DB_USERNAME="${{ secrets.DB_USERNAME }}"
+          DB_PASSWORD="${{ secrets.DB_PASSWORD }}"
+
+          CACHE_STORE=file
+          SESSION_DRIVER=file
+          QUEUE_CONNECTION=sync
+          EOF
+
+      - name: Create InfinityFree root .htaccess
+        run: |
+          cat > .htaccess <<'EOF'
+          <IfModule mod_rewrite.c>
+              RewriteEngine On
+
+              RewriteRule ^\. - [F,L]
+              RewriteRule ^(composer\.(json|lock)|package(-lock)?\.json|artisan|phpunit\.xml)$ - [F,L]
+              RewriteRule ^(app|bootstrap|config|database|resources|routes|storage|tests|vendor|node_modules)(/.*)?$ - [F,L]
+
+              RewriteCond %{REQUEST_URI} !^/public/
+              RewriteCond %{DOCUMENT_ROOT}/public%{REQUEST_URI} -f [OR]
+              RewriteCond %{DOCUMENT_ROOT}/public%{REQUEST_URI} -d
+              RewriteRule ^(.*)$ public/$1 [L]
+
+              RewriteCond %{REQUEST_URI} !^/public/
+              RewriteRule ^(.*)$ public/index.php [L]
+          </IfModule>
+          EOF
+
+      - name: Optimize Laravel
+        run: |
+          php artisan config:clear
+          php artisan route:clear
+          php artisan view:clear
+          php artisan package:discover --ansi
+
+      - name: Deploy to InfinityFree by FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./
+          server-dir: /htdocs/
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/.github/**
+            **/node_modules/**
+            **/tests/**
+            **/public/hot
+            **/public/photos/**
+            .dockerignore
+            Dockerfile
+            .env.example
+            README.md
+            phpunit.xml
+            npm-debug.log
+            yarn-error.log
