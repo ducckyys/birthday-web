@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\BirthdayMessage;
+use App\Models\BirthdayPhoto;
 use App\Models\BirthdaySetting;
 use App\Models\Memory;
 use App\Models\Reason;
@@ -10,6 +11,7 @@ use App\Models\Wish;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Illuminate\View\View;
 
 class AdminBirthdayController extends Controller
@@ -27,6 +29,7 @@ class AdminBirthdayController extends Controller
             'unlockDate' => $unlockAt->format('Y-m-d'),
             'unlockTime' => $unlockAt->format('H:i'),
             'messages' => BirthdayMessage::query()->orderBy('sort_order')->orderBy('id')->get(),
+            'photos' => BirthdayPhoto::query()->orderBy('sort_order')->orderBy('id')->get(),
             'memories' => Memory::query()->orderBy('sort_order')->orderBy('id')->get(),
             'reasons' => Reason::query()->orderBy('sort_order')->orderBy('id')->get(),
             'wishes' => Wish::query()->orderBy('sort_order')->orderBy('id')->get(),
@@ -48,6 +51,18 @@ class AdminBirthdayController extends Controller
             'hero_subtitle' => ['required', 'string', 'max:255'],
             'age_badge_text' => ['required', 'string', 'max:255'],
             'hero_button_text' => ['required', 'string', 'max:255'],
+            'messages_section_kicker' => ['required', 'string', 'max:255'],
+            'messages_section_title' => ['required', 'string', 'max:255'],
+            'photo_section_kicker' => ['required', 'string', 'max:255'],
+            'photo_section_title' => ['required', 'string', 'max:255'],
+            'photo_letter_button_text' => ['required', 'string', 'max:255'],
+            'photo_letter_open_title' => ['required', 'string', 'max:255'],
+            'memories_section_kicker' => ['required', 'string', 'max:255'],
+            'memories_section_title' => ['required', 'string', 'max:255'],
+            'reasons_section_kicker' => ['required', 'string', 'max:255'],
+            'reasons_section_title' => ['required', 'string', 'max:255'],
+            'wishes_section_kicker' => ['required', 'string', 'max:255'],
+            'wishes_section_title' => ['required', 'string', 'max:255'],
             'closing_message' => ['required', 'string'],
             'music_url' => ['nullable', 'string', 'max:2048'],
             'music_volume' => ['nullable', 'numeric', 'min:0', 'max:1'],
@@ -78,6 +93,18 @@ class AdminBirthdayController extends Controller
             'hero_subtitle' => $validated['hero_subtitle'],
             'age_badge_text' => $validated['age_badge_text'],
             'hero_button_text' => $validated['hero_button_text'],
+            'messages_section_kicker' => $validated['messages_section_kicker'],
+            'messages_section_title' => $validated['messages_section_title'],
+            'photo_section_kicker' => $validated['photo_section_kicker'],
+            'photo_section_title' => $validated['photo_section_title'],
+            'photo_letter_button_text' => $validated['photo_letter_button_text'],
+            'photo_letter_open_title' => $validated['photo_letter_open_title'],
+            'memories_section_kicker' => $validated['memories_section_kicker'],
+            'memories_section_title' => $validated['memories_section_title'],
+            'reasons_section_kicker' => $validated['reasons_section_kicker'],
+            'reasons_section_title' => $validated['reasons_section_title'],
+            'wishes_section_kicker' => $validated['wishes_section_kicker'],
+            'wishes_section_title' => $validated['wishes_section_title'],
             'closing_message' => $validated['closing_message'],
             'music_enabled' => $request->boolean('music_enabled'),
             'music_url' => $validated['music_url'] ?? null,
@@ -263,9 +290,94 @@ class AdminBirthdayController extends Controller
         return $this->backWithSaved('Wish berhasil dihapus.');
     }
 
+    public function storePhoto(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'caption' => ['nullable', 'string'],
+            'image' => ['required', 'image', 'mimes:jpg,jpeg,png,webp,gif', 'max:5120'],
+            'sort_order' => ['nullable', 'integer', 'min:0'],
+        ]);
+
+        BirthdayPhoto::query()->create([
+            'title' => $validated['title'],
+            'caption' => $validated['caption'] ?? null,
+            'image_path' => $this->storePhotoImage($request->file('image')),
+            'sort_order' => $validated['sort_order'] ?? $this->nextSortOrder(BirthdayPhoto::class),
+        ]);
+
+        return $this->backWithSaved('Foto berhasil ditambahkan.');
+    }
+
+    public function updatePhoto(Request $request, BirthdayPhoto $photo): RedirectResponse
+    {
+        $validated = $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'caption' => ['nullable', 'string'],
+            'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp,gif', 'max:5120'],
+            'sort_order' => ['nullable', 'integer', 'min:0'],
+        ]);
+
+        $data = [
+            'title' => $validated['title'],
+            'caption' => $validated['caption'] ?? null,
+            'sort_order' => $validated['sort_order'] ?? 0,
+        ];
+
+        if ($request->hasFile('image')) {
+            $this->deletePhotoFile($photo->image_path);
+            $data['image_path'] = $this->storePhotoImage($request->file('image'));
+        }
+
+        $photo->update($data);
+
+        return $this->backWithSaved('Foto berhasil diperbarui.');
+    }
+
+    public function destroyPhoto(BirthdayPhoto $photo): RedirectResponse
+    {
+        $this->deletePhotoFile($photo->image_path);
+        $photo->delete();
+
+        return $this->backWithSaved('Foto berhasil dihapus.');
+    }
+
     private function nextSortOrder(string $modelClass): int
     {
         return ((int) $modelClass::query()->max('sort_order')) + 1;
+    }
+
+    private function storePhotoImage(UploadedFile $file): string
+    {
+        $directory = public_path('photos');
+
+        if (! is_dir($directory)) {
+            mkdir($directory, 0755, true);
+        }
+
+        $filename = now()->format('YmdHis').'-'.uniqid('nayla-', true).'.'.$file->getClientOriginalExtension();
+        $file->move($directory, $filename);
+
+        return '/photos/'.$filename;
+    }
+
+    private function deletePhotoFile(?string $imagePath): void
+    {
+        if (! $imagePath) {
+            return;
+        }
+
+        $normalizedPath = ltrim($imagePath, '/');
+
+        if (! str_starts_with($normalizedPath, 'photos/')) {
+            return;
+        }
+
+        $absolutePath = public_path($normalizedPath);
+
+        if (is_file($absolutePath)) {
+            unlink($absolutePath);
+        }
     }
 
     private function backWithSaved(string $message): RedirectResponse

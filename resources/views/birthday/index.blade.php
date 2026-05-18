@@ -22,6 +22,18 @@
         $heroDateLabel = $data['setting']->hero_date_label ?: '23 Mei 2026';
         $ageBadgeText = str_replace('{age}', $data['age'], $data['setting']->age_badge_text ?: 'Genap {age} tahun hari ini');
         $heroButtonText = $data['setting']->hero_button_text ?: 'Buka Pesannya';
+        $messagesSectionKicker = $data['setting']->messages_section_kicker ?: 'Untuk Nayla';
+        $messagesSectionTitle = $data['setting']->messages_section_title ?: 'Pesan yang kusimpan untuk hari ini';
+        $photoSectionKicker = $data['setting']->photo_section_kicker ?: 'Surat Foto';
+        $photoSectionTitle = $data['setting']->photo_section_title ?: 'Surat Foto Untuk Nayla';
+        $photoLetterButtonText = $data['setting']->photo_letter_button_text ?: 'Buka Surat';
+        $photoLetterOpenTitle = $data['setting']->photo_letter_open_title ?: 'Sedikit wajah yang selalu ingin kulihat';
+        $memoriesSectionKicker = $data['setting']->memories_section_kicker ?: 'Timeline';
+        $memoriesSectionTitle = $data['setting']->memories_section_title ?: 'Sedikit Cerita Tentang Kita';
+        $reasonsSectionKicker = $data['setting']->reasons_section_kicker ?: 'Alasan';
+        $reasonsSectionTitle = $data['setting']->reasons_section_title ?: 'Alasan Aku Sayang Kamu';
+        $wishesSectionKicker = $data['setting']->wishes_section_kicker ?: 'Doa';
+        $wishesSectionTitle = $data['setting']->wishes_section_title ?: 'Harapan baik untukmu';
     @endphp
 
     <div class="confetti-rain" data-confetti-rain aria-hidden="true"></div>
@@ -74,8 +86,8 @@
             <div class="container">
                 <div class="row justify-content-center mb-4">
                     <div class="col-lg-8 text-center">
-                        <span class="section-kicker reveal">Untuk Nayla</span>
-                        <h2 class="section-title reveal">Pesan yang kusimpan untuk hari ini</h2>
+                        <span class="section-kicker reveal">{{ $messagesSectionKicker }}</span>
+                        <h2 class="section-title reveal">{{ $messagesSectionTitle }}</h2>
                     </div>
                 </div>
 
@@ -94,12 +106,57 @@
             </div>
         </section>
 
+        @if ($data['photos']->isNotEmpty())
+            <section class="section-space section-soft photo-letter-section">
+                <div class="container">
+                    <div class="row justify-content-center mb-4">
+                        <div class="col-lg-8 text-center">
+                            <span class="section-kicker reveal">{{ $photoSectionKicker }}</span>
+                            <h2 class="section-title reveal">{{ $photoSectionTitle }}</h2>
+                        </div>
+                    </div>
+
+                    <div class="photo-letter-wrap reveal" data-photo-letter>
+                        <button type="button" class="photo-envelope" data-photo-letter-toggle aria-expanded="false">
+                            <span class="photo-envelope-flap" aria-hidden="true"></span>
+                            <span class="photo-envelope-body" aria-hidden="true"></span>
+                            <span class="photo-envelope-paper" aria-hidden="true"></span>
+                            <span class="photo-envelope-text">{{ $photoLetterButtonText }}</span>
+                        </button>
+
+                        <div class="photo-letter-panel" aria-live="polite">
+                            <h3 class="photo-letter-title">{{ $photoLetterOpenTitle }}</h3>
+                            <div class="photo-polaroid-grid">
+                                @foreach ($data['photos'] as $photo)
+                                    @php
+                                        $photoSource = \Illuminate\Support\Str::startsWith($photo->image_path, ['http://', 'https://', '/'])
+                                            ? $photo->image_path
+                                            : asset($photo->image_path);
+                                        $photoTilt = (($loop->iteration % 5) - 2) * 1.6;
+                                    @endphp
+                                    <figure class="photo-polaroid" style="--photo-tilt: {{ $photoTilt }}deg;">
+                                        <img src="{{ $photoSource }}" alt="{{ $photo->title }}">
+                                        <figcaption>
+                                            <strong>{{ $photo->title }}</strong>
+                                            @if ($photo->caption)
+                                                <span>{{ $photo->caption }}</span>
+                                            @endif
+                                        </figcaption>
+                                    </figure>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        @endif
+
         <section class="section-space section-soft story-timeline-section">
             <div class="container">
                 <div class="row justify-content-center mb-5">
                     <div class="col-lg-8 text-center">
-                        <span class="section-kicker reveal">Timeline</span>
-                        <h2 class="section-title reveal">Sedikit Cerita Tentang Kita</h2>
+                        <span class="section-kicker reveal">{{ $memoriesSectionKicker }}</span>
+                        <h2 class="section-title reveal">{{ $memoriesSectionTitle }}</h2>
                     </div>
                 </div>
 
@@ -122,8 +179,8 @@
             <div class="container">
                 <div class="row justify-content-center mb-4">
                     <div class="col-lg-8 text-center">
-                        <span class="section-kicker reveal">Alasan</span>
-                        <h2 class="section-title reveal">Alasan Aku Sayang Kamu</h2>
+                        <span class="section-kicker reveal">{{ $reasonsSectionKicker }}</span>
+                        <h2 class="section-title reveal">{{ $reasonsSectionTitle }}</h2>
                     </div>
                 </div>
 
@@ -147,8 +204,8 @@
             <div class="container">
                 <div class="row justify-content-center mb-4">
                     <div class="col-lg-8 text-center">
-                        <span class="section-kicker reveal">Doa</span>
-                        <h2 class="section-title reveal">Harapan baik untukmu</h2>
+                        <span class="section-kicker reveal">{{ $wishesSectionKicker }}</span>
+                        <h2 class="section-title reveal">{{ $wishesSectionTitle }}</h2>
                     </div>
                 </div>
 

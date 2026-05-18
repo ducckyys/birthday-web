@@ -169,6 +169,108 @@
                                 </section>
 
                                 <section class="admin-form-section">
+                                    <h2 class="admin-section-title">Judul Section Halaman Utama</h2>
+
+                                    <div class="row g-3">
+                                        <div class="col-12 col-md-6">
+                                            <label for="messages_section_kicker" class="admin-label form-label">Kicker birthday message</label>
+                                            <input type="text" id="messages_section_kicker" name="messages_section_kicker" class="form-control admin-form-control @error('messages_section_kicker') is-invalid @enderror" value="{{ old('messages_section_kicker', $setting?->messages_section_kicker ?? 'Untuk Nayla') }}" required>
+                                            @error('messages_section_kicker')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-12 col-md-6">
+                                            <label for="messages_section_title" class="admin-label form-label">Judul birthday message</label>
+                                            <input type="text" id="messages_section_title" name="messages_section_title" class="form-control admin-form-control @error('messages_section_title') is-invalid @enderror" value="{{ old('messages_section_title', $setting?->messages_section_title ?? 'Pesan yang kusimpan untuk hari ini') }}" required>
+                                            @error('messages_section_title')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-12 col-md-6">
+                                            <label for="photo_section_kicker" class="admin-label form-label">Kicker surat foto</label>
+                                            <input type="text" id="photo_section_kicker" name="photo_section_kicker" class="form-control admin-form-control @error('photo_section_kicker') is-invalid @enderror" value="{{ old('photo_section_kicker', $setting?->photo_section_kicker ?? 'Surat Foto') }}" required>
+                                            @error('photo_section_kicker')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-12 col-md-6">
+                                            <label for="photo_section_title" class="admin-label form-label">Judul surat foto</label>
+                                            <input type="text" id="photo_section_title" name="photo_section_title" class="form-control admin-form-control @error('photo_section_title') is-invalid @enderror" value="{{ old('photo_section_title', $setting?->photo_section_title ?? 'Surat Foto Untuk Nayla') }}" required>
+                                            @error('photo_section_title')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-12 col-md-6">
+                                            <label for="photo_letter_button_text" class="admin-label form-label">Teks tombol surat foto</label>
+                                            <input type="text" id="photo_letter_button_text" name="photo_letter_button_text" class="form-control admin-form-control @error('photo_letter_button_text') is-invalid @enderror" value="{{ old('photo_letter_button_text', $setting?->photo_letter_button_text ?? 'Buka Surat') }}" required>
+                                            @error('photo_letter_button_text')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-12 col-md-6">
+                                            <label for="photo_letter_open_title" class="admin-label form-label">Judul setelah surat dibuka</label>
+                                            <input type="text" id="photo_letter_open_title" name="photo_letter_open_title" class="form-control admin-form-control @error('photo_letter_open_title') is-invalid @enderror" value="{{ old('photo_letter_open_title', $setting?->photo_letter_open_title ?? 'Sedikit wajah yang selalu ingin kulihat') }}" required>
+                                            @error('photo_letter_open_title')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-12 col-md-6">
+                                            <label for="memories_section_kicker" class="admin-label form-label">Kicker memories</label>
+                                            <input type="text" id="memories_section_kicker" name="memories_section_kicker" class="form-control admin-form-control @error('memories_section_kicker') is-invalid @enderror" value="{{ old('memories_section_kicker', $setting?->memories_section_kicker ?? 'Timeline') }}" required>
+                                            @error('memories_section_kicker')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-12 col-md-6">
+                                            <label for="memories_section_title" class="admin-label form-label">Judul memories</label>
+                                            <input type="text" id="memories_section_title" name="memories_section_title" class="form-control admin-form-control @error('memories_section_title') is-invalid @enderror" value="{{ old('memories_section_title', $setting?->memories_section_title ?? 'Sedikit Cerita Tentang Kita') }}" required>
+                                            @error('memories_section_title')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-12 col-md-6">
+                                            <label for="reasons_section_kicker" class="admin-label form-label">Kicker reasons</label>
+                                            <input type="text" id="reasons_section_kicker" name="reasons_section_kicker" class="form-control admin-form-control @error('reasons_section_kicker') is-invalid @enderror" value="{{ old('reasons_section_kicker', $setting?->reasons_section_kicker ?? 'Alasan') }}" required>
+                                            @error('reasons_section_kicker')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-12 col-md-6">
+                                            <label for="reasons_section_title" class="admin-label form-label">Judul reasons</label>
+                                            <input type="text" id="reasons_section_title" name="reasons_section_title" class="form-control admin-form-control @error('reasons_section_title') is-invalid @enderror" value="{{ old('reasons_section_title', $setting?->reasons_section_title ?? 'Alasan Aku Sayang Kamu') }}" required>
+                                            @error('reasons_section_title')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-12 col-md-6">
+                                            <label for="wishes_section_kicker" class="admin-label form-label">Kicker wishes</label>
+                                            <input type="text" id="wishes_section_kicker" name="wishes_section_kicker" class="form-control admin-form-control @error('wishes_section_kicker') is-invalid @enderror" value="{{ old('wishes_section_kicker', $setting?->wishes_section_kicker ?? 'Doa') }}" required>
+                                            @error('wishes_section_kicker')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-12 col-md-6">
+                                            <label for="wishes_section_title" class="admin-label form-label">Judul wishes</label>
+                                            <input type="text" id="wishes_section_title" name="wishes_section_title" class="form-control admin-form-control @error('wishes_section_title') is-invalid @enderror" value="{{ old('wishes_section_title', $setting?->wishes_section_title ?? 'Harapan baik untukmu') }}" required>
+                                            @error('wishes_section_title')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <section class="admin-form-section">
                                     <h2 class="admin-section-title">Teks Locked Page</h2>
 
                                     <div class="row g-3">
@@ -298,6 +400,83 @@
                                         </article>
                                     @empty
                                         <p class="admin-empty mb-0">Belum ada birthday message.</p>
+                                    @endforelse
+                                </div>
+                            </section>
+
+                            <section class="admin-content-block">
+                                <div class="admin-content-heading">
+                                    <p class="admin-kicker mb-1">Upload Foto</p>
+                                    <h2 class="admin-title admin-title-small mb-0">Foto Surat Nayla</h2>
+                                </div>
+
+                                <form action="{{ route('birthday.admin.photos.store') }}" method="POST" enctype="multipart/form-data" class="admin-create-form">
+                                    @csrf
+                                    <div class="row g-3">
+                                        <div class="col-12 col-md-5">
+                                            <label for="photo_title" class="admin-label form-label">Judul foto baru</label>
+                                            <input type="text" id="photo_title" name="title" class="form-control admin-form-control" placeholder="Senyum yang aku rindu" required>
+                                        </div>
+                                        <div class="col-12 col-md-4">
+                                            <label for="photo_image" class="admin-label form-label">Upload foto</label>
+                                            <input type="file" id="photo_image" name="image" class="form-control admin-form-control" accept="image/jpeg,image/png,image/webp,image/gif" required>
+                                        </div>
+                                        <div class="col-12 col-md-3">
+                                            <label for="photo_sort_order" class="admin-label form-label">Urutan</label>
+                                            <input type="number" id="photo_sort_order" name="sort_order" class="form-control admin-form-control" min="0" placeholder="Auto">
+                                        </div>
+                                        <div class="col-12">
+                                            <label for="photo_caption" class="admin-label form-label">Caption</label>
+                                            <textarea id="photo_caption" name="caption" rows="3" class="form-control admin-form-control" placeholder="Tulis cerita kecil di balik foto ini."></textarea>
+                                            <p class="admin-help mb-0 mt-2">Foto akan disimpan ke folder public/photos dan tampil di section surat foto.</p>
+                                        </div>
+                                        <div class="col-12">
+                                            <button type="submit" class="admin-button">Upload Foto</button>
+                                        </div>
+                                    </div>
+                                </form>
+
+                                <div class="admin-crud-list">
+                                    @forelse ($photos as $photo)
+                                        <article class="admin-crud-item">
+                                            <div class="admin-photo-row">
+                                                <img src="{{ $photo->image_path }}" alt="{{ $photo->title }}" class="admin-photo-thumb">
+                                                <form action="{{ route('birthday.admin.photos.update', $photo) }}" method="POST" enctype="multipart/form-data" class="admin-crud-form admin-photo-form">
+                                                    @csrf
+                                                    @method('PUT')
+
+                                                    <div class="row g-3">
+                                                        <div class="col-12 col-md-6">
+                                                            <label for="photo_title_{{ $photo->id }}" class="admin-label form-label">Judul</label>
+                                                            <input type="text" id="photo_title_{{ $photo->id }}" name="title" class="form-control admin-form-control" value="{{ $photo->title }}" required>
+                                                        </div>
+                                                        <div class="col-12 col-md-3">
+                                                            <label for="photo_sort_order_{{ $photo->id }}" class="admin-label form-label">Urutan</label>
+                                                            <input type="number" id="photo_sort_order_{{ $photo->id }}" name="sort_order" class="form-control admin-form-control" value="{{ $photo->sort_order }}" min="0">
+                                                        </div>
+                                                        <div class="col-12 col-md-3">
+                                                            <label for="photo_image_{{ $photo->id }}" class="admin-label form-label">Ganti foto</label>
+                                                            <input type="file" id="photo_image_{{ $photo->id }}" name="image" class="form-control admin-form-control" accept="image/jpeg,image/png,image/webp,image/gif">
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <label for="photo_caption_{{ $photo->id }}" class="admin-label form-label">Caption</label>
+                                                            <textarea id="photo_caption_{{ $photo->id }}" name="caption" rows="3" class="form-control admin-form-control">{{ $photo->caption }}</textarea>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <button type="submit" class="admin-secondary-button">Simpan Foto</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+
+                                            <form action="{{ route('birthday.admin.photos.destroy', $photo) }}" method="POST" class="admin-delete-form" onsubmit="return confirm('Hapus foto ini? File fotonya juga akan dihapus.')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="admin-delete-button">Hapus Foto</button>
+                                            </form>
+                                        </article>
+                                    @empty
+                                        <p class="admin-empty mb-0">Belum ada foto. Upload foto pertama dari form di atas.</p>
                                     @endforelse
                                 </div>
                             </section>

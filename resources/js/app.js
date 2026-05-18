@@ -321,6 +321,22 @@ const initFloatingHearts = () => {
     });
 };
 
+const initPhotoLetter = () => {
+    document.querySelectorAll('[data-photo-letter]').forEach((letter) => {
+        const button = letter.querySelector('[data-photo-letter-toggle]');
+
+        if (!button) {
+            return;
+        }
+
+        button.addEventListener('click', () => {
+            const isOpen = letter.classList.toggle('is-open');
+
+            button.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        });
+    });
+};
+
 document.addEventListener('DOMContentLoaded', () => {
     initCountdown();
     initRevealAnimation();
@@ -328,4 +344,5 @@ document.addEventListener('DOMContentLoaded', () => {
     initConfetti();
     initSoftMusic();
     initFloatingHearts();
+    initPhotoLetter();
 });

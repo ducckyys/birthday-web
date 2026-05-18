@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\BirthdayMessage;
+use App\Models\BirthdayPhoto;
 use App\Models\BirthdaySetting;
 use App\Models\Memory;
 use App\Models\Reason;
@@ -52,6 +53,10 @@ class BirthdayController extends Controller
             ->orderBy('sort_order')
             ->get();
 
+        $photos = BirthdayPhoto::query()
+            ->orderBy('sort_order')
+            ->get();
+
         $reasons = Reason::query()
             ->orderBy('sort_order')
             ->get();
@@ -68,6 +73,7 @@ class BirthdayController extends Controller
             'now' => $now,
             'age' => $age,
             'messages' => $messages,
+            'photos' => $photos,
             'memories' => $memories,
             'reasons' => $reasons,
             'wishes' => $wishes,

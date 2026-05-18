@@ -1235,6 +1235,240 @@ body.birthday-page {
     font-weight: 700;
 }
 
+.admin-photo-row {
+    display: grid;
+    grid-template-columns: 8rem minmax(0, 1fr);
+    gap: 1rem;
+    align-items: start;
+}
+
+.admin-photo-thumb {
+    width: 8rem;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border-radius: 0.9rem;
+    border: 1px solid rgba(201, 102, 127, 0.18);
+    background: rgba(255, 250, 247, 0.72);
+}
+
+.admin-photo-form {
+    min-width: 0;
+}
+
+.photo-letter-section {
+    overflow: hidden;
+}
+
+.photo-letter-wrap {
+    max-width: 62rem;
+    margin: 1.75rem auto 0;
+    text-align: center;
+}
+
+.photo-envelope {
+    position: relative;
+    width: min(30rem, 92vw);
+    aspect-ratio: 1.36;
+    margin: 0 auto;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    perspective: 900px;
+    cursor: pointer;
+}
+
+.photo-envelope:focus,
+.photo-envelope:focus-visible {
+    outline: 0;
+}
+
+.photo-envelope:focus-visible .photo-envelope-body {
+    box-shadow:
+        0 0 0 0.18rem rgba(201, 102, 127, 0.16),
+        0 1.2rem 2.8rem rgba(130, 87, 104, 0.14);
+}
+
+.photo-envelope-body,
+.photo-envelope-flap,
+.photo-envelope-paper {
+    position: absolute;
+    left: 0;
+    right: 0;
+    border-radius: 0.8rem;
+}
+
+.photo-envelope-body {
+    bottom: 0;
+    height: 72%;
+    background:
+        linear-gradient(32deg, transparent 49.2%, rgba(201, 102, 127, 0.16) 50%, transparent 50.8%),
+        linear-gradient(148deg, transparent 49.2%, rgba(201, 102, 127, 0.16) 50%, transparent 50.8%),
+        linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(255, 225, 234, 0.96));
+    border: 1px solid rgba(201, 102, 127, 0.2);
+    border-top-width: 2px;
+    box-shadow: 0 1.2rem 2.8rem rgba(130, 87, 104, 0.14);
+    overflow: hidden;
+    z-index: 3;
+}
+
+.photo-envelope-body::before,
+.photo-envelope-body::after {
+    content: "";
+    position: absolute;
+    top: 1px;
+    bottom: 0;
+    width: 60%;
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.58), rgba(255, 225, 234, 0.72));
+    border-top: 1px solid rgba(201, 102, 127, 0.12);
+    z-index: 1;
+}
+
+.photo-envelope-body::before {
+    left: 0;
+    clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+
+.photo-envelope-body::after {
+    right: 0;
+    clip-path: polygon(100% 0, 0 50%, 100% 100%);
+}
+
+.photo-envelope-flap {
+    top: 28%;
+    height: 46%;
+    background: linear-gradient(145deg, #ffdce8 0%, #f2edff 100%);
+    border: 1px solid rgba(201, 102, 127, 0.18);
+    border-bottom: 0;
+    border-radius: 0.45rem 0.45rem 0.25rem 0.25rem;
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    transform-origin: 50% 0;
+    transition: transform 720ms cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 4;
+}
+
+.photo-envelope-paper {
+    top: 10%;
+    height: 66%;
+    width: 78%;
+    margin: 0 auto;
+    background: rgba(255, 250, 247, 0.96);
+    border: 1px solid rgba(201, 102, 127, 0.16);
+    box-shadow: 0 0.8rem 1.9rem rgba(130, 87, 104, 0.08);
+    opacity: 0;
+    transform: translateY(34%);
+    transition: transform 760ms cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 2;
+}
+
+.photo-envelope-text {
+    position: absolute;
+    left: 50%;
+    bottom: 24%;
+    z-index: 5;
+    min-height: 2.7rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.65rem 1.15rem;
+    color: #fff;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #d97892 0%, #a98be8 100%);
+    box-shadow: 0 0.7rem 1.4rem rgba(130, 87, 104, 0.16);
+    font-weight: 800;
+    transform: translateX(-50%);
+    white-space: nowrap;
+}
+
+.photo-letter-wrap.is-open .photo-envelope-flap {
+    transform: rotateX(174deg);
+    z-index: 1;
+}
+
+.photo-letter-wrap.is-open .photo-envelope-paper {
+    opacity: 1;
+    transform: translateY(-30%);
+}
+
+.photo-letter-panel {
+    max-height: 0;
+    margin-top: 0;
+    opacity: 0;
+    overflow: hidden;
+    transform: translateY(-1rem);
+    transition:
+        max-height 900ms ease,
+        margin-top 480ms ease,
+        opacity 560ms ease,
+        transform 640ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.photo-letter-wrap.is-open .photo-letter-panel {
+    max-height: 160rem;
+    margin-top: 2rem;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.photo-letter-title {
+    margin-bottom: 1.5rem;
+    color: var(--rose-deep);
+    font-size: clamp(1.25rem, 3vw, 1.8rem);
+    font-weight: 800;
+}
+
+.photo-polaroid-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.15rem;
+}
+
+.photo-polaroid {
+    margin: 0;
+    padding: 0.75rem 0.75rem 1rem;
+    border-radius: 0.9rem;
+    background: rgba(255, 255, 255, 0.88);
+    border: 1px solid rgba(255, 255, 255, 0.86);
+    box-shadow: 0 1rem 2.3rem rgba(130, 87, 104, 0.12);
+    transform: rotate(var(--photo-tilt, 0deg));
+    transition: transform 260ms ease, box-shadow 260ms ease;
+}
+
+.photo-polaroid:hover {
+    transform: rotate(0deg) translateY(-0.25rem);
+    box-shadow: 0 1.25rem 2.8rem rgba(130, 87, 104, 0.16);
+}
+
+.photo-polaroid img {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border-radius: 0.55rem;
+    display: block;
+}
+
+.photo-polaroid figcaption {
+    padding-top: 0.75rem;
+    text-align: left;
+}
+
+.photo-polaroid strong,
+.photo-polaroid span {
+    display: block;
+}
+
+.photo-polaroid strong {
+    color: var(--ink);
+    font-size: 0.98rem;
+    line-height: 1.35;
+}
+
+.photo-polaroid span {
+    margin-top: 0.35rem;
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
 @media (max-width: 575.98px) {
     .music-toggle.music-toggle-btn {
         right: 0.75rem;
@@ -1271,5 +1505,22 @@ body.birthday-page {
 
     .admin-actions {
         flex-direction: column;
+    }
+
+    .admin-photo-row {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-photo-thumb {
+        width: 100%;
+        max-width: 14rem;
+    }
+
+    .photo-polaroid-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .photo-polaroid {
+        transform: none;
     }
 }

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\BirthdayMessage;
+use App\Models\BirthdayPhoto;
 use App\Models\BirthdaySetting;
 use App\Models\Memory;
 use App\Models\Reason;
@@ -17,6 +18,7 @@ class BirthdayDatabaseSeeder extends Seeder
     public function run(): void
     {
         BirthdayMessage::query()->delete();
+        BirthdayPhoto::query()->delete();
         Memory::query()->delete();
         Reason::query()->delete();
         Wish::query()->delete();
@@ -33,6 +35,18 @@ class BirthdayDatabaseSeeder extends Seeder
             'hero_subtitle' => 'Untuk seseorang yang selalu punya tempat paling hangat di hati.',
             'age_badge_text' => 'Genap {age} tahun hari ini',
             'hero_button_text' => 'Buka Pesannya',
+            'messages_section_kicker' => 'Untuk Nayla',
+            'messages_section_title' => 'Pesan yang kusimpan untuk hari ini',
+            'photo_section_kicker' => 'Surat Foto',
+            'photo_section_title' => 'Surat Foto Untuk Nayla',
+            'photo_letter_button_text' => 'Buka Surat',
+            'photo_letter_open_title' => 'Sedikit wajah yang selalu ingin kulihat',
+            'memories_section_kicker' => 'Timeline',
+            'memories_section_title' => 'Sedikit Cerita Tentang Kita',
+            'reasons_section_kicker' => 'Alasan',
+            'reasons_section_title' => 'Alasan Aku Sayang Kamu',
+            'wishes_section_kicker' => 'Doa',
+            'wishes_section_title' => 'Harapan baik untukmu',
             'locked_title' => 'Ada sesuatu untuk Nayla…',
             'locked_subtitle' => 'Tapi belum waktunya dibuka.',
             'locked_message' => 'Tunggu sampai hari spesialmu tiba ya, Nayla.',

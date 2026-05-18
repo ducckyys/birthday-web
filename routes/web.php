@@ -25,3 +25,7 @@ Route::delete('/secret-admin-nayla/reasons/{reason}', [AdminBirthdayController::
 Route::post('/secret-admin-nayla/wishes', [AdminBirthdayController::class, 'storeWish'])->name('birthday.admin.wishes.store');
 Route::put('/secret-admin-nayla/wishes/{wish}', [AdminBirthdayController::class, 'updateWish'])->name('birthday.admin.wishes.update');
 Route::delete('/secret-admin-nayla/wishes/{wish}', [AdminBirthdayController::class, 'destroyWish'])->name('birthday.admin.wishes.destroy');
+
+Route::post('/secret-admin-nayla/photos', [AdminBirthdayController::class, 'storePhoto'])->name('birthday.admin.photos.store');
+Route::put('/secret-admin-nayla/photos/{photo}', [AdminBirthdayController::class, 'updatePhoto'])->name('birthday.admin.photos.update');
+Route::delete('/secret-admin-nayla/photos/{photo}', [AdminBirthdayController::class, 'destroyPhoto'])->name('birthday.admin.photos.destroy');
