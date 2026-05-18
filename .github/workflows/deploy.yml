@@ -104,6 +104,23 @@ jobs:
           php artisan view:clear
           php artisan package:discover --ansi
 
+      - name: Prepare Laravel writable folders
+        run: |
+          mkdir -p storage/framework/cache/data
+          mkdir -p storage/framework/sessions
+          mkdir -p storage/framework/views
+          mkdir -p storage/logs
+          mkdir -p bootstrap/cache
+          mkdir -p public/audio
+          mkdir -p public/photos
+          touch storage/framework/cache/data/.keep
+          touch storage/framework/sessions/.keep
+          touch storage/framework/views/.keep
+          touch storage/logs/.keep
+          touch bootstrap/cache/.keep
+          touch public/audio/.keep
+          touch public/photos/.keep
+
       - name: Deploy to InfinityFree by FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
