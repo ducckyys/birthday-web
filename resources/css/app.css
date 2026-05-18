@@ -903,3 +903,373 @@ body.birthday-page {
         transition-duration: 620ms;
     }
 }
+
+.music-toggle.music-toggle-btn {
+    max-width: calc(100vw - 2rem);
+    min-width: 0;
+}
+
+.music-toggle.music-toggle-btn .music-toggle-text {
+    display: inline;
+    white-space: nowrap;
+}
+
+.unlock-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    color: #fff;
+    background: rgba(92, 62, 75, 0.44);
+    opacity: 0;
+    pointer-events: none;
+    backdrop-filter: blur(18px);
+    transition: opacity 520ms ease;
+}
+
+.unlock-overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.unlock-overlay-content {
+    text-align: center;
+    transform: translateY(1rem) scale(0.96);
+    transition: transform 640ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.unlock-overlay.show .unlock-overlay-content {
+    transform: translateY(0) scale(1);
+}
+
+.unlock-overlay-text {
+    font-size: clamp(1.6rem, 7vw, 3.4rem);
+    font-weight: 800;
+    text-shadow: 0 1rem 2.2rem rgba(92, 62, 75, 0.24);
+}
+
+.unlock-overlay-hearts {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.unlock-overlay-hearts span {
+    color: #ffe1ea;
+    font-size: clamp(1.8rem, 8vw, 3.2rem);
+    line-height: 1;
+    animation: unlock-heart-float 1300ms ease-in-out infinite;
+}
+
+.unlock-overlay-hearts span:nth-child(2) {
+    animation-delay: 160ms;
+}
+
+.unlock-overlay-hearts span:nth-child(3) {
+    animation-delay: 320ms;
+}
+
+@keyframes unlock-heart-float {
+    0%,
+    100% {
+        opacity: 0.72;
+        transform: translateY(0) scale(0.94);
+    }
+
+    50% {
+        opacity: 1;
+        transform: translateY(-0.7rem) scale(1.08);
+    }
+}
+
+.locked-page.is-unlocking .locked-unlock-shell {
+    opacity: 0;
+    transform: scale(0.985);
+    transition: opacity 520ms ease, transform 520ms ease;
+}
+
+.locked-random-message {
+    color: var(--rose-deep);
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
+.admin-page {
+    min-height: 100vh;
+    margin: 0;
+    color: #4f3441;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background:
+        radial-gradient(circle at 14% 10%, rgba(255, 255, 255, 0.86), transparent 24%),
+        linear-gradient(135deg, #ffe1ea 0%, #fff8ef 44%, #eee8ff 100%);
+}
+
+.admin-shell {
+    min-height: 100vh;
+}
+
+.admin-card {
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.78);
+    border-radius: 1.25rem;
+    background: rgba(255, 255, 255, 0.82);
+    backdrop-filter: blur(18px);
+}
+
+.admin-card-header,
+.admin-card-body {
+    padding: clamp(1.15rem, 3vw, 2rem);
+}
+
+.admin-card-header {
+    border-bottom: 1px solid rgba(201, 102, 127, 0.16);
+    background: rgba(255, 250, 247, 0.62);
+}
+
+.admin-kicker {
+    color: #c9667f;
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0;
+    text-transform: uppercase;
+}
+
+.admin-title {
+    color: #5c3e4b;
+    font-size: clamp(1.45rem, 4vw, 2.2rem);
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.admin-form-section {
+    padding: 1.25rem 0;
+    border-bottom: 1px solid rgba(201, 102, 127, 0.14);
+}
+
+.admin-form-section:first-of-type {
+    padding-top: 0;
+}
+
+.admin-form-section:last-of-type {
+    border-bottom: 0;
+}
+
+.admin-section-title {
+    margin-bottom: 1rem;
+    color: #c9667f;
+    font-size: 1rem;
+    font-weight: 800;
+}
+
+.admin-label {
+    color: #5c3e4b;
+    font-size: 0.9rem;
+    font-weight: 800;
+}
+
+.admin-form-control {
+    border-color: rgba(201, 102, 127, 0.24);
+    border-radius: 0.8rem;
+}
+
+.admin-form-control:focus {
+    border-color: rgba(201, 102, 127, 0.58);
+    box-shadow: 0 0 0 0.2rem rgba(201, 102, 127, 0.12);
+}
+
+.admin-check {
+    min-height: 3.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.8rem 0.95rem;
+    border: 1px solid rgba(201, 102, 127, 0.2);
+    border-radius: 0.9rem;
+    background: rgba(255, 250, 247, 0.58);
+    color: #5c3e4b;
+    font-weight: 800;
+}
+
+.admin-check input {
+    width: 1.05rem;
+    height: 1.05rem;
+    accent-color: #c9667f;
+}
+
+.admin-preview-link,
+.admin-secondary-link,
+.admin-button {
+    min-height: 2.75rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    font-weight: 800;
+    text-decoration: none;
+}
+
+.admin-preview-link,
+.admin-secondary-link {
+    padding: 0.65rem 1rem;
+    color: #c9667f;
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(201, 102, 127, 0.18);
+}
+
+.admin-preview-link:hover,
+.admin-secondary-link:hover {
+    color: #a94e68;
+    background: rgba(255, 255, 255, 0.95);
+}
+
+.admin-button {
+    padding: 0.75rem 1.25rem;
+    color: #fff;
+    border: 0;
+    background: linear-gradient(135deg, #d97892 0%, #a98be8 100%);
+}
+
+.admin-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    padding-top: 1.25rem;
+}
+
+.admin-alert {
+    padding: 0.85rem 1rem;
+    border: 1px solid rgba(80, 150, 110, 0.22);
+    border-radius: 0.9rem;
+    color: #326b4a;
+    background: rgba(235, 255, 244, 0.78);
+    font-weight: 700;
+}
+
+.admin-alert-danger {
+    border-color: rgba(201, 102, 127, 0.22);
+    color: #a94e68;
+    background: rgba(255, 238, 244, 0.82);
+}
+
+.admin-help {
+    color: #846b76;
+    font-size: 0.88rem;
+    line-height: 1.6;
+}
+
+.admin-title-small {
+    font-size: clamp(1.2rem, 3vw, 1.65rem);
+}
+
+.admin-content-block {
+    margin-top: 1.75rem;
+    padding-top: 1.75rem;
+    border-top: 1px solid rgba(201, 102, 127, 0.16);
+}
+
+.admin-content-heading {
+    margin-bottom: 1rem;
+}
+
+.admin-create-form {
+    padding: 1rem;
+    border: 1px solid rgba(201, 102, 127, 0.16);
+    border-radius: 1rem;
+    background: rgba(255, 250, 247, 0.58);
+}
+
+.admin-crud-list {
+    display: grid;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.admin-crud-item {
+    padding: 1rem;
+    border: 1px solid rgba(201, 102, 127, 0.14);
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.64);
+}
+
+.admin-crud-form {
+    margin: 0;
+}
+
+.admin-delete-form {
+    margin: 0.75rem 0 0;
+}
+
+.admin-secondary-button,
+.admin-delete-button {
+    min-height: 2.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.65rem 1rem;
+    border-radius: 999px;
+    font-weight: 800;
+}
+
+.admin-secondary-button {
+    color: #c9667f;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(201, 102, 127, 0.22);
+}
+
+.admin-delete-button {
+    color: #9f3652;
+    background: rgba(255, 238, 244, 0.78);
+    border: 1px solid rgba(201, 102, 127, 0.22);
+}
+
+.admin-empty {
+    padding: 1rem;
+    border: 1px dashed rgba(201, 102, 127, 0.22);
+    border-radius: 1rem;
+    color: #846b76;
+    background: rgba(255, 255, 255, 0.44);
+    font-weight: 700;
+}
+
+@media (max-width: 575.98px) {
+    .music-toggle.music-toggle-btn {
+        right: 0.75rem;
+        bottom: 0.75rem;
+        max-width: calc(100vw - 1.5rem);
+        padding: 0.55rem 0.68rem;
+    }
+
+    .music-toggle.music-toggle-btn .music-toggle-text {
+        display: inline;
+        font-size: 0.82rem;
+    }
+
+    .locked-page .countdown-card {
+        gap: 0.55rem;
+    }
+
+    .locked-page .countdown-item {
+        min-height: 5.25rem;
+        padding: 0.8rem 0.45rem;
+    }
+
+    .admin-card {
+        border-radius: 1rem;
+    }
+
+    .admin-preview-link,
+    .admin-secondary-link,
+    .admin-button,
+    .admin-secondary-button,
+    .admin-delete-button {
+        width: 100%;
+    }
+
+    .admin-actions {
+        flex-direction: column;
+    }
+}

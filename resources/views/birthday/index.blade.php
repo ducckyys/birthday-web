@@ -9,20 +9,39 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="birthday-page birthday-index">
+    @php
+        $rawMusicUrl = trim((string) $data['setting']->music_url);
+        $musicSource = null;
+
+        if (($data['setting']->music_enabled ?? true) && $rawMusicUrl !== '') {
+            $musicSource = \Illuminate\Support\Str::startsWith($rawMusicUrl, ['http://', 'https://', '/'])
+                ? $rawMusicUrl
+                : asset($rawMusicUrl);
+        }
+
+        $heroDateLabel = $data['setting']->hero_date_label ?: '23 Mei 2026';
+        $ageBadgeText = str_replace('{age}', $data['age'], $data['setting']->age_badge_text ?: 'Genap {age} tahun hari ini');
+        $heroButtonText = $data['setting']->hero_button_text ?: 'Buka Pesannya';
+    @endphp
+
     <div class="confetti-rain" data-confetti-rain aria-hidden="true"></div>
     <div class="floating-hearts" data-floating-hearts aria-hidden="true"></div>
     <div class="soft-blob blob-one" aria-hidden="true"></div>
     <div class="soft-blob blob-two" aria-hidden="true"></div>
-    <button type="button" class="music-toggle shadow-sm" data-music-toggle aria-label="Nyalakan musik">
-        <span class="music-toggle-icon" aria-hidden="true">&#9835;</span>
-        <span class="music-toggle-text">Musik</span>
-        <span class="music-bars" aria-hidden="true">
-            <span></span>
-            <span></span>
-            <span></span>
-        </span>
-    </button>
-    <audio data-birthday-audio src="{{ asset('audio/birthday-candles-lofi-alternative-501730.mp3') }}" preload="auto" loop></audio>
+
+    @if ($musicSource)
+        <button type="button" class="music-toggle music-toggle-btn shadow-sm" data-music-toggle aria-label="Putar Musik">
+            <span class="music-toggle-icon" aria-hidden="true">&#9835;</span>
+            <span class="music-toggle-text">Putar Musik</span>
+            <span class="music-bars" aria-hidden="true">
+                <span></span>
+                <span></span>
+                <span></span>
+            </span>
+        </button>
+        <audio data-birthday-audio src="{{ $musicSource }}" data-music-volume="{{ $data['setting']->music_volume ?? 0.5 }}" preload="none" loop></audio>
+    @endif
+
     <div class="sparkle-field" aria-hidden="true">
         <span></span>
         <span></span>
@@ -34,15 +53,15 @@
         <div class="container position-relative">
             <div class="row justify-content-center">
                 <div class="col-12 col-lg-9 col-xl-8">
-                    <span class="tiny-label mb-3 d-inline-block reveal">23 Mei 2026</span>
+                    <span class="tiny-label mb-3 d-inline-block reveal">{{ $heroDateLabel }}</span>
                     <h1 class="hero-title fw-semibold mb-4 reveal">{{ $data['setting']->hero_title }}</h1>
                     <p class="hero-subtitle mx-auto mb-4 reveal">{{ $data['setting']->hero_subtitle }}</p>
                     <div class="age-pill d-inline-flex align-items-center justify-content-center rounded-pill shadow-sm mb-4 reveal">
-                        Genap {{ $data['age'] }} tahun hari ini
+                        {{ $ageBadgeText }}
                     </div>
                     <div class="reveal">
                         <button type="button" class="btn btn-romantic rounded-pill px-4 py-3 shadow-sm" data-scroll-target="#birthday-message" data-confetti-trigger>
-                            Buka Pesannya
+                            {{ $heroButtonText }}
                         </button>
                     </div>
                 </div>
@@ -75,12 +94,12 @@
             </div>
         </section>
 
-        <section class="section-space section-soft">
+        <section class="section-space section-soft story-timeline-section">
             <div class="container">
                 <div class="row justify-content-center mb-5">
                     <div class="col-lg-8 text-center">
                         <span class="section-kicker reveal">Timeline</span>
-                        <h2 class="section-title reveal">Cerita kecil yang tetap berarti</h2>
+                        <h2 class="section-title reveal">Sedikit Cerita Tentang Kita</h2>
                     </div>
                 </div>
 
@@ -99,12 +118,12 @@
             </div>
         </section>
 
-        <section class="section-space">
+        <section class="section-space love-reasons-section">
             <div class="container">
                 <div class="row justify-content-center mb-4">
                     <div class="col-lg-8 text-center">
                         <span class="section-kicker reveal">Alasan</span>
-                        <h2 class="section-title reveal">Kenapa Nayla selalu spesial</h2>
+                        <h2 class="section-title reveal">Alasan Aku Sayang Kamu</h2>
                     </div>
                 </div>
 
@@ -164,9 +183,9 @@
             </div>
             <footer class="birthday-footer">
                 <div class="container d-flex flex-column flex-md-row align-items-center justify-content-center gap-2">
-                    <span>Untuk Nayla Rabiatul Hanifa</span>
+                    <span>Untuk {{ $data['setting']->girlfriend_name }}</span>
                     <span class="footer-separator" aria-hidden="true"></span>
-                    <span>23 Mei 2026</span>
+                    <span>{{ $heroDateLabel }}</span>
                 </div>
             </footer>
         </section>

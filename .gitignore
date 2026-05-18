@@ -11,6 +11,8 @@
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml
+composer.json
+composer.lock
 auth.json
 npm-debug.log
 yarn-error.log

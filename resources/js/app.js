@@ -17,26 +17,51 @@ const initCountdown = () => {
         return;
     }
 
-    const target = new Date(countdown.dataset.countdownTarget).getTime();
+    const targetValue = countdown.dataset.countdownTarget || countdown.dataset.unlockAt;
+    const target = new Date(targetValue).getTime();
 
     if (Number.isNaN(target)) {
         return;
     }
 
+    let hasUnlocked = false;
+    let countdownTimer = null;
+
+    const finishCountdown = () => {
+        if (hasUnlocked) {
+            return;
+        }
+
+        hasUnlocked = true;
+
+        if (countdownTimer) {
+            window.clearInterval(countdownTimer);
+        }
+
+        setText(countdown, '[data-countdown-days]', '00');
+        setText(countdown, '[data-countdown-hours]', '00');
+        setText(countdown, '[data-countdown-minutes]', '00');
+        setText(countdown, '[data-countdown-seconds]', '00');
+
+        const overlay = document.querySelector('[data-unlock-overlay]');
+
+        document.body.classList.add('is-unlocking');
+
+        if (overlay) {
+            overlay.classList.add('show');
+            overlay.setAttribute('aria-hidden', 'false');
+        }
+
+        window.setTimeout(() => {
+            window.location.href = countdown.dataset.unlockRedirectUrl || window.location.href;
+        }, 2600);
+    };
+
     const render = () => {
         const distance = target - Date.now();
 
         if (distance <= 0) {
-            setText(countdown, '[data-countdown-days]', '00');
-            setText(countdown, '[data-countdown-hours]', '00');
-            setText(countdown, '[data-countdown-minutes]', '00');
-            setText(countdown, '[data-countdown-seconds]', '00');
-
-            if (!sessionStorage.getItem('birthday-unlocked-refresh')) {
-                sessionStorage.setItem('birthday-unlocked-refresh', 'true');
-                setTimeout(() => window.location.reload(), 800);
-            }
-
+            finishCountdown();
             return;
         }
 
@@ -52,7 +77,10 @@ const initCountdown = () => {
     };
 
     render();
-    setInterval(render, 1000);
+
+    if (!hasUnlocked) {
+        countdownTimer = window.setInterval(render, 1000);
+    }
 };
 
 const initRevealAnimation = () => {
@@ -197,15 +225,19 @@ const initSoftMusic = () => {
 
     let isPlaying = false;
     let isStarting = false;
+    const requestedVolume = Number.parseFloat(audio.dataset.musicVolume ?? '0.5');
+    const musicVolume = Number.isFinite(requestedVolume)
+        ? Math.min(1, Math.max(0, requestedVolume))
+        : 0.5;
 
     const updateButton = () => {
         button.classList.toggle('is-playing', isPlaying);
-        button.setAttribute('aria-label', isPlaying ? 'Jeda musik' : 'Nyalakan musik');
+        button.setAttribute('aria-label', isPlaying ? 'Jeda Musik' : 'Putar Musik');
 
         const text = button.querySelector('.music-toggle-text');
 
         if (text) {
-            text.textContent = isPlaying ? 'Jeda' : 'Musik';
+            text.textContent = isPlaying ? 'Jeda Musik' : 'Putar Musik';
         }
     };
 
@@ -217,7 +249,7 @@ const initSoftMusic = () => {
         isStarting = true;
 
         try {
-            audio.volume = 0.5;
+            audio.volume = musicVolume;
             await audio.play();
             isPlaying = true;
             updateButton();
@@ -244,7 +276,7 @@ const initSoftMusic = () => {
         } catch (error) {
             isPlaying = false;
             updateButton();
-            console.warn('Musik belum bisa diputar. Pastikan file MP3 ada di public/audio/birthday-candles-lofi-alternative-501730.mp3', error);
+            console.warn('Musik belum bisa diputar. Pastikan music_url mengarah ke file audio yang valid.', error);
         }
     });
 

@@ -26,12 +26,21 @@ class BirthdayDatabaseSeeder extends Seeder
             'girlfriend_name' => 'Nayla Rabiatul Hanifa',
             'birth_date' => '2004-05-23',
             'unlock_at' => '2026-05-23 00:00:00',
+            'is_timer_active' => true,
+            'is_preview_enabled' => false,
+            'hero_date_label' => '23 Mei 2026',
             'hero_title' => 'Selamat Ulang Tahun, Nayla Rabiatul Hanifa',
             'hero_subtitle' => 'Untuk seseorang yang selalu punya tempat paling hangat di hati.',
+            'age_badge_text' => 'Genap {age} tahun hari ini',
+            'hero_button_text' => 'Buka Pesannya',
             'locked_title' => 'Ada sesuatu untuk Nayla…',
             'locked_subtitle' => 'Tapi belum waktunya dibuka.',
             'locked_message' => 'Tunggu sampai hari spesialmu tiba ya, Nayla.',
             'closing_message' => 'Mungkin kita belum punya banyak foto bersama, belum banyak waktu yang bisa diabadikan, tapi aku selalu berharap suatu hari nanti kita punya lebih banyak cerita yang bisa kita simpan, bukan cuma di galeri, tapi juga di hati.',
+            'music_enabled' => true,
+            // Letakkan file di public/audio lalu isi dari admin, misalnya: /audio/nayla-lofi.mp3
+            'music_url' => null,
+            'music_volume' => 0.50,
         ]);
 
         BirthdayMessage::query()->create([

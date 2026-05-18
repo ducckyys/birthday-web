@@ -1,8 +1,11 @@
 # Audio
 
-Download the Pixabay track and place it here as:
+Untuk musik lokal:
 
-`birthday-candles-lofi-alternative-501730.mp3`
+1. Buat folder `public/audio` jika belum ada.
+2. Masukkan file, misalnya `nayla-lofi.mp3`.
+3. Di admin panel isi `music_url` dengan:
 
-Track page:
-https://pixabay.com/music/lofi-birthday-candles-lofi-alternative-501730/
+`/audio/nayla-lofi.mp3`
+
+Seeder membiarkan `music_url` kosong supaya kamu bisa memilih file sendiri dari admin panel.
